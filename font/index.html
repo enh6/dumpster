@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+
+<head>
+  <meta charset="utf-8">
+  <title>font inspect</title>
+
+  <link href="css/mini-default.css" rel="stylesheet">
+  <style>
+
+#app {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+#canvas-div {
+  flex: 1;
+}
+
+#canvas {
+  border: solid 1px #999;
+  margin: 2px;
+}
+  </style>
+
+</head>
+
+<body>
+  <div id='app'>
+    <div id='canvas-div'>
+      <canvas id='canvas'
+        @wheel='resizeGlyph'
+        @mousedown.left='mousedown'
+        @mouseup.left='mouseup'
+        @mouseout='mouseup'
+        @mousemove='mousemove'></canvas>
+    </div>
+    <div id='sidebar'>
+      <form @submit.prevent>
+        <fieldset>
+          <legend>Font Info</legend>
+          <div><select v-model='fontname'>
+            <option>DejaVuSansMono.ttf</option>
+            <option>SourceHanSerifSC-Regular.otf</option>
+          </select></div>
+          <div><input type='file' @change='openfile' /></div>
+          <div v-if='font'>
+            <p v-if='font.names.fontFamily.en'>Font Family (en): {{font.names.fontFamily.en}}</p>
+            <p v-if='font.names.fontFamily.zh'>Font Family (zh): {{font.names.fontFamily.zh}}</p>
+            <p>unitsPerEm: {{font.unitsPerEm}}</p>
+            <p>hhea ascender: {{font.tables.hhea.ascender}}</p>
+            <p>hhea descender: {{font.tables.hhea.descender}}</p>
+            <p>hhea lineGap: {{font.tables.hhea.lineGap}}</p>
+            <p>os2 ascender: {{font.tables.os2.sTypoAscender}}</p>
+            <p>os2 descender: {{font.tables.os2.sTypoDescender}}</p>
+            <p>os2 lineGap: {{font.tables.os2.sTypoLineGap}}</p>
+            <p>win ascent: {{font.tables.os2.usWinAscent}}</p>
+            <p>win descent: {{font.tables.os2.usWinDescent}}</p>
+          </div>
+          <div v-else>Loading font...</div>
+        </fieldset>
+        <fieldset>
+          <legend>Glyphs</legend>
+          <div><label>Text</label><input type='text' v-model='text' /></div>
+          <div><label>Glyph size</label><input type='text' v-model.number='options.glyph_size' /></div>
+          <button @click='resetGlyphSize'>Reset glyph size</button>
+          <div><label>Origin x</label><input type='text' v-model.number='options.origin_x' /></div>
+          <div><label>Origin y</label><input type='text' v-model.number='options.origin_y' /></div>
+          <button @click='resetOrigin'>Reset origin</button>
+          <div><label>Show origin</label><input type='checkbox' v-model='options.origin' /></div>
+          <div><label>Show baseline</label><input type='checkbox' v-model='options.baseline' /></div>
+          <div><label>Show points</label><input type='checkbox' v-model='options.points' /></div>
+          <div><label>Show bounding box</label><input type='checkbox' v-model='options.box' /></div>
+          <div><label>Kerning</label><input type='checkbox' v-model='options.kerning' /></div>
+          <div><label>Hinting</label><input type='checkbox' v-model='options.hinting' /></div>
+          <p>canvas size: {{options.canvas_width}} x {{options.canvas_height}}</p>
+          <div v-if='text'><p>advanceWidth: {{advance_width}}</p></div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/vue.js"></script>
+  <script src="js/opentype.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+
+</html>
