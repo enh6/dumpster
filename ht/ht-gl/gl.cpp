@@ -35,7 +35,8 @@ void bindRenderbuffer(const CallbackInfo &info) {
 }
 
 void bindTexture(const CallbackInfo &info) {
-  glBindTexture(info[0].As<Number>(), info[1].As<Number>());
+  const Object texture = info[1].As<Object>();
+  glBindTexture(info[0].As<Number>(), texture["value"].As<Number>());
 }
 
 void bufferData(const CallbackInfo &info) {
@@ -80,6 +81,20 @@ Value createShader(const CallbackInfo &info) {
   return shader;
 }
 
+Value createTexture(const CallbackInfo &info) {
+  Object texture = Object::New(info.Env());
+  GLuint tex;
+  glGenTextures(1, &tex);
+  texture["value"] = (double)tex;
+  return texture;
+}
+
+void deleteTexture(const CallbackInfo &info) {
+  const Object texture = info[0].As<Object>();
+  GLuint tex = texture["value"].As<Number>();
+  glDeleteTextures(1, &tex);
+}
+
 void depthFunc(const CallbackInfo &info) { glDepthFunc(info[0].As<Number>()); }
 
 void disable(const CallbackInfo &info) { glDisable(info[0].As<Number>()); }
@@ -107,6 +122,10 @@ void enableVertexAttribArray(const CallbackInfo &info) {
 void finish(const CallbackInfo &info) { glFinish(); }
 
 void flush(const CallbackInfo &info) { glFlush(); }
+
+void generateMipmap(const CallbackInfo &info) {
+  glGenerateMipmap(info[0].As<Number>());
+}
 
 Value getAttribLocation(const CallbackInfo &info) {
   const Object program = info[0].As<Object>();
@@ -169,6 +188,17 @@ void shaderSource(const CallbackInfo &info) {
   glShaderSource(shader["value"].As<Number>(), 1, &c_str, &length);
 }
 
+void texImage2D(const CallbackInfo &info) {
+  ArrayBuffer buffer = info[8].As<TypedArray>().ArrayBuffer();
+  glTexImage2D(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
+    info[3].As<Number>(), info[4].As<Number>(), info[5].As<Number>(), info[6].As<Number>(),
+    info[7].As<Number>(), buffer.Data());
+}
+
+void texParameteri(const CallbackInfo &info) {
+  glTexParameteri(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>());
+}
+
 void uniformMatrix4fv(const CallbackInfo &info) {
   const Object location = info[0].As<Object>();
   const Object matrix = info[2].As<Object>();
@@ -229,13 +259,14 @@ Object InitModule(Env env, Object exports) {
   ADD_FUNCTION(exports, createBuffer); // genBuffers
   ADD_FUNCTION(exports, createProgram);
   ADD_FUNCTION(exports, createShader);
+  ADD_FUNCTION(exports, createTexture); //genTextures
   // ADD_FUNCTION(exports, cullFace);
   // ADD_FUNCTION(exports, deleteBuffers);
   // ADD_FUNCTION(exports, deleteFramebuffers);
   // ADD_FUNCTION(exports, deleteProgram);
   // ADD_FUNCTION(exports, deleteRenderbuffers);
   // ADD_FUNCTION(exports, deleteShader);
-  // ADD_FUNCTION(exports, deleteTextures);
+  ADD_FUNCTION(exports, deleteTexture); //deleteTextures
   ADD_FUNCTION(exports, depthFunc);
   // ADD_FUNCTION(exports, depthMask);
   // ADD_FUNCTION(exports, depthRangef);
@@ -251,10 +282,9 @@ Object InitModule(Env env, Object exports) {
   // ADD_FUNCTION(exports, framebufferRenderbuffer);
   // ADD_FUNCTION(exports, framebufferTexture2D);
   // ADD_FUNCTION(exports, frontFace);
-  // ADD_FUNCTION(exports, generateMipmap);
+  ADD_FUNCTION(exports, generateMipmap);
   // ADD_FUNCTION(exports, genFramebuffers);
   // ADD_FUNCTION(exports, genRenderbuffers);
-  // ADD_FUNCTION(exports, genTextures);
   // ADD_FUNCTION(exports, getActiveAttrib);
   // ADD_FUNCTION(exports, getActiveUniform);
   // ADD_FUNCTION(exports, getAttachedShaders);
@@ -306,10 +336,10 @@ Object InitModule(Env env, Object exports) {
   // ADD_FUNCTION(exports, stencilMaskSeparate);
   // ADD_FUNCTION(exports, stencilOp);
   // ADD_FUNCTION(exports, stencilOpSeparate);
-  // ADD_FUNCTION(exports, texImage2D);
+  ADD_FUNCTION(exports, texImage2D);
   // ADD_FUNCTION(exports, texParameterf);
   // ADD_FUNCTION(exports, texParameterfv);
-  // ADD_FUNCTION(exports, texParameteri);
+  ADD_FUNCTION(exports, texParameteri);
   // ADD_FUNCTION(exports, texParameteriv);
   // ADD_FUNCTION(exports, texSubImage2D);
   // ADD_FUNCTION(exports, uniform1f);

@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node test"
+    "test": "node test/test.js"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "bindings": "^1.3.0",
+    "node-addon-api": "^1.0.0"
+  },
+  "devDependencies": {
     "gl-matrix": "^2.4.0",
-    "node-addon-api": "^1.0.0",
+    "jimp": "^0.5.3",
     "ht-sdl2": "file:../ht-sdl2"
   },
   "gyp-file": true
