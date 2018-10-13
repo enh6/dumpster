@@ -37,12 +37,6 @@ class App {
 
       sdl.GL_MakeCurrent(this.win, this.context);
 
-      console.log('vender: ', gl.getString(gl.VENDOR));
-      console.log('renderer: ', gl.getString(gl.RENDERER));
-      console.log('version: ', gl.getString(gl.VERSION));
-      console.log('glsl version: ', gl.getString(gl.SHADING_LANGUAGE_VERSION));
-      //console.log('extensions: ', gl.getString(gl.EXTENSIONS));
-
       this.vs_source = `
         attribute vec4 aPosition;
         attribute vec2 aTexcoord;
@@ -101,6 +95,8 @@ class App {
       gl.clearColor(0.0, 0.0, 0.0, 1.0);
       gl.clearDepth(1.0);
       gl.enable(gl.DEPTH_TEST);
+
+      this.draw();
     }
 
     initBuffers() {
