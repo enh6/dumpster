@@ -15,7 +15,8 @@
   "devDependencies": {
     "gl-matrix": "^2.4.0",
     "jimp": "^0.5.3",
-    "ht-sdl2": "file:../ht-sdl2"
+    "ht-sdl2": "file:../ht-sdl2",
+    "g3d": "^0.1.1"
   },
   "gyp-file": true
 }

@@ -1,6 +1,8 @@
 const gl_bindings = require('bindings')('ht-gl');
 
-let GL = gl_bindings;
+let GL = {};
+
+GL.debug = false;
 
 // Constants
 GL.DEPTH_BUFFER_BIT               = 0x00000100;
@@ -304,5 +306,697 @@ GL.FRAMEBUFFER_BINDING            = 0x8CA6;
 GL.RENDERBUFFER_BINDING           = 0x8CA7;
 GL.MAX_RENDERBUFFER_SIZE          = 0x84E8;
 GL.INVALID_FRAMEBUFFER_OPERATION  = 0x0506;
+
+/* WebGL-specific enums */
+GL.UNPACK_FLIP_Y_WEBGL            = 0x9240;
+GL.UNPACK_PREMULTIPLY_ALPHA_WEBGL = 0x9241;
+GL.CONTEXT_LOST_WEBGL             = 0x9242;
+GL.UNPACK_COLORSPACE_CONVERSION_WEBGL = 0x9243;
+GL.BROWSER_DEFAULT_WEBGL          = 0x9244;
+
+GL.activeTexture = function() {
+    if (GL.debug) {
+        console.log("activeTexture");
+        console.log(arguments);
+    }
+    return gl_bindings.activeTexture.apply(null, arguments);
+};
+GL.attachShader = function() {
+    if (GL.debug) {
+        console.log("attachShader");
+        console.log(arguments);
+    }
+    return gl_bindings.attachShader.apply(null, arguments);
+};
+GL.bindAttribLocation = function() {
+    if (GL.debug) {
+        console.log("bindAttribLocation");
+        console.log(arguments);
+    }
+    return gl_bindings.bindAttribLocation.apply(null, arguments);
+};
+GL.bindBuffer = function() {
+    if (GL.debug) {
+        console.log("bindBuffer");
+        console.log(arguments);
+    }
+    return gl_bindings.bindBuffer.apply(null, arguments);
+};
+GL.bindFramebuffer = function() {
+    if (GL.debug) {
+        console.log("bindFramebuffer");
+        console.log(arguments);
+    }
+    return gl_bindings.bindFramebuffer.apply(null, arguments);
+};
+GL.bindRenderbuffer = function() {
+    if (GL.debug) {
+        console.log("bindRenderbuffer");
+        console.log(arguments);
+    }
+    return gl_bindings.bindRenderbuffer.apply(null, arguments);
+};
+GL.bindTexture = function() {
+    if (GL.debug) {
+        console.log("bindTexture");
+        console.log(arguments);
+    }
+    return gl_bindings.bindTexture.apply(null, arguments);
+};
+GL.blendColor = function() {
+    if (GL.debug) {
+        console.log("blendColor");
+        console.log(arguments);
+    }
+    return gl_bindings.blendColor.apply(null, arguments);
+};
+GL.blendEquation = function() {
+    if (GL.debug) {
+        console.log("blendEquation");
+        console.log(arguments);
+    }
+    return gl_bindings.blendEquation.apply(null, arguments);
+};
+GL.blendEquationSeparate = function() {
+    if (GL.debug) {
+        console.log("blendEquationSeparate");
+        console.log(arguments);
+    }
+    return gl_bindings.blendEquationSeparate.apply(null, arguments);
+};
+GL.blendFunc = function() {
+    if (GL.debug) {
+        console.log("blendFunc");
+        console.log(arguments);
+    }
+    return gl_bindings.activeTexture.apply(null, arguments);
+};
+GL.blendFuncSeparate = function() {
+    if (GL.debug) {
+        console.log("blendFuncSeparate");
+        console.log(arguments);
+    }
+    return gl_bindings.blendFunc.apply(null, arguments);
+};
+GL.bufferData = function() {
+    if (GL.debug) {
+        console.log("bufferData");
+        console.log(arguments);
+    }
+    return gl_bindings.bufferData.apply(null, arguments);
+};
+GL.bufferSubData = function() {
+    if (GL.debug) {
+        console.log("bufferSubData");
+        console.log(arguments);
+    }
+    return gl_bindings.bufferSubData.apply(null, arguments);
+};
+GL.checkFramebufferStatus = function() {
+    if (GL.debug) {
+        console.log("checkFramebufferStatus");
+        console.log(arguments);
+    }
+    return gl_bindings.checkFramebufferStatus.apply(null, arguments);
+};
+GL.clear = function() {
+    if (GL.debug) {
+        console.log("clear");
+        console.log(arguments);
+    }
+    return gl_bindings.clear.apply(null, arguments);
+};
+GL.clearColor = function() {
+    if (GL.debug) {
+        console.log("clearColor");
+        console.log(arguments);
+    }
+    return gl_bindings.clearColor.apply(null, arguments);
+};
+GL.clearDepth = function() {
+    if (GL.debug) {
+        console.log("clearDepth");
+        console.log(arguments);
+    }
+    return gl_bindings.clearDepth.apply(null, arguments);
+};
+GL.clearStencil = function() {
+    if (GL.debug) {
+        console.log("clearStencil");
+        console.log(arguments);
+    }
+    return gl_bindings.clearStencil.apply(null, arguments);
+};
+GL.colorMask = function() {
+    if (GL.debug) {
+        console.log("colorMask");
+        console.log(arguments);
+    }
+    return gl_bindings.colorMask.apply(null, arguments);
+};
+// GL.commit; // WebGL experimental API
+GL.compileShader = function() {
+    if (GL.debug) {
+        console.log("compileShader");
+        console.log(arguments);
+    }
+    return gl_bindings.compileShader.apply(null, arguments);
+};
+// GL.compressedTexImage2D;  // WebGL extension
+// GL.compressedTexSubImage2D; // WebGL extension
+GL.copyTexImage2D = function() {
+    if (GL.debug) {
+        console.log("copyTexImage2D");
+        console.log(arguments);
+    }
+    return gl_bindings.copyTexImage2D.apply(null, arguments);
+};
+GL.copyTexSubImage2D = function() {
+    if (GL.debug) {
+        console.log("copyTexSubImage2D");
+        console.log(arguments);
+    }
+    return gl_bindings.copyTexSubImage2D.apply(null, arguments);
+};
+GL.createBuffer = function() {
+    if (GL.debug) {
+        console.log("createBuffer");
+        console.log(arguments);
+    }
+    return gl_bindings.createBuffer.apply(null, arguments);
+};
+GL.createFramebuffer = function() {
+    if (GL.debug) {
+        console.log("createFramebuffer");
+        console.log(arguments);
+    }
+  return gl_bindings.createFramebuffer.apply(null, arguments);
+};
+GL.createProgram = function() {
+    if (GL.debug) {
+        console.log("createProgram");
+        console.log(arguments);
+    }
+    return gl_bindings.createProgram.apply(null, arguments);
+};
+GL.createRenderbuffer = function() {
+    if (GL.debug) {
+        console.log("createRenderbuffer");
+        console.log(arguments);
+    }
+    return gl_bindings.createRenderbuffer.apply(null, arguments);
+};
+GL.createShader = function() {
+    if (GL.debug) {
+        console.log("createShader");
+        console.log(arguments);
+    }
+    return gl_bindings.createShader.apply(null, arguments);
+};
+GL.createTexture = function() {
+    if (GL.debug) {
+        console.log("createTexture");
+        console.log(arguments);
+    }
+    return gl_bindings.createTexture.apply(null, arguments);
+};
+GL.cullFace = function() {
+    if (GL.debug) {
+        console.log("cullFace");
+        console.log(arguments);
+    }
+    return gl_bindings.cullFace.apply(null, arguments);
+};
+GL.deleteBuffer = function() {
+    if (GL.debug) {
+        console.log("deleteBuffer");
+        console.log(arguments);
+    }
+    return gl_bindings.deleteBuffer.apply(null, arguments);
+};
+GL.deleteFramebuffer = function() {
+    if (GL.debug) {
+        console.log("deleteFramebuffer");
+        console.log(arguments);
+    }
+    return gl_bindings.deleteFramebuffer.apply(null, arguments);
+};
+GL.deleteProgram = function() {
+    if (GL.debug) {
+        console.log("deleteProgram");
+        console.log(arguments);
+    }
+    return gl_bindings.deleteProgram.apply(null, arguments);
+};
+GL.deleteRenderbuffer = function() {
+    if (GL.debug) {
+        console.log("deleteRenderbuffer");
+        console.log(arguments);
+    }
+    return gl_bindings.deleteRenderbuffer.apply(null, arguments);
+};
+GL.deleteShader = function() {
+    if (GL.debug) {
+        console.log("deleteShader");
+        console.log(arguments);
+    }
+    return gl_bindings.deleteShader.apply(null, arguments);
+};
+GL.deleteTexture = function() {
+    if (GL.debug) {
+        console.log("deleteTexture");
+        console.log(arguments);
+    }
+    return gl_bindings.deleteTexture.apply(null, arguments);
+};
+GL.depthFunc = function() {
+    if (GL.debug) {
+        console.log("depthFunc");
+        console.log(arguments);
+    }
+    return gl_bindings.depthFunc.apply(null, arguments);
+};
+GL.depthMask = function() {
+    if (GL.debug) {
+        console.log("depthMask");
+        console.log(arguments);
+    }
+    return gl_bindings.depthMask.apply(null, arguments);
+};
+GL.depthRange = function() {
+    if (GL.debug) {
+        console.log("depthRange");
+        console.log(arguments);
+    }
+    return gl_bindings.depthRange.apply(null, arguments);
+};
+GL.detachShader = function() {
+    if (GL.debug) {
+        console.log("detachShader");
+        console.log(arguments);
+    }
+    return gl_bindings.detachShader.apply(null, arguments);
+};
+GL.disable = function() {
+    if (GL.debug) {
+        console.log("disable");
+        console.log(arguments);
+    }
+    return gl_bindings.disable.apply(null, arguments);
+};
+GL.disableVertexAttribArray = function() {
+    if (GL.debug) {
+        console.log("disableVertexAttribArray");
+        console.log(arguments);
+    }
+    return gl_bindings.disableVertexAttribArray.apply(null, arguments);
+};
+GL.drawArrays = function() {
+    if (GL.debug) {
+        console.log("drawArrays");
+        console.log(arguments);
+    }
+    return gl_bindings.drawArrays.apply(null, arguments);
+};
+GL.drawElements = function() {
+    if (GL.debug) {
+        console.log("drawElements");
+        console.log(arguments);
+    }
+    return gl_bindings.drawElements.apply(null, arguments);
+};
+GL.enable = function() {
+    if (GL.debug) {
+        console.log("enable");
+        console.log(arguments);
+    }
+    return gl_bindings.enable.apply(null, arguments);
+};
+GL.enableVertexAttribArray = function() {
+    if (GL.debug) {
+        console.log("enableVertexAttribArray");
+        console.log(arguments);
+    }
+    return gl_bindings.enableVertexAttribArray.apply(null, arguments);
+};
+GL.finish = function() {
+    if (GL.debug) {
+        console.log("finish");
+        console.log(arguments);
+    }
+    return gl_bindings.finish.apply(null, arguments);
+};
+GL.flush = function() {
+    if (GL.debug) {
+        console.log("flush");
+        console.log(arguments);
+    }
+    return gl_bindings.flush.apply(null, arguments);
+};
+GL.framebufferRenderbuffer = function() {
+    if (GL.debug) {
+        console.log("framebufferRenderbuffer");
+        console.log(arguments);
+    }
+    return gl_bindings.framebufferRenderbuffer.apply(null, arguments);
+};
+GL.framebufferTexture2D = function() {
+    if (GL.debug) {
+        console.log("framebufferTexture2D");
+        console.log(arguments);
+    }
+    return gl_bindings.framebufferTexture2D.apply(null, arguments);
+};
+GL.frontFace = function() {
+    if (GL.debug) {
+        console.log("frontFace");
+        console.log(arguments);
+    }
+    return gl_bindings.frontFace.apply(null, arguments);
+};
+GL.generateMipmap = function() {
+    if (GL.debug) {
+        console.log("generateMipmap");
+        console.log(arguments);
+    }
+    return gl_bindings.generateMipmap.apply(null, arguments);
+};
+GL.getActiveAttrib = function() {
+    if (GL.debug) {
+        console.log("getActiveAttrib");
+        console.log(arguments);
+    }
+    return gl_bindings.getActiveAttrib.apply(null, arguments);
+};
+GL.getActiveUniform = function() {
+    if (GL.debug) {
+        console.log("getActiveUniform");
+        console.log(arguments);
+    }
+    return gl_bindings.getActiveUniform.apply(null, arguments);
+};
+// GL.getAttachedShaders;
+GL.getAttribLocation = function() {
+    if (GL.debug) {
+        console.log("getAttribLocation");
+        console.log(arguments);
+    }
+    return gl_bindings.getAttribLocation.apply(null, arguments);
+};
+// GL.getBufferParameteri; // glGetBufferParameteriv
+// GL.getContextAttributes;
+GL.getError = function() {
+    if (GL.debug) {
+        console.log("getError");
+        console.log(arguments);
+    }
+    return gl_bindings.getError.apply(null, arguments);
+};
+GL.getExtension = function() {
+    if (GL.debug) {
+        console.log("getExtension");
+        console.log(arguments);
+    }
+    return '';
+}
+// GL.getFramebufferAttachmentParameteri; // glGetFramebufferAttachmentParameteriv
+// GL.getParameter;
+// GL.getProgramInfoLog;
+GL.getProgramParameter = function() {
+    if (GL.debug) {
+        console.log("getProgramParameter");
+        console.log(arguments);
+    }
+    return gl_bindings.getProgramParameter.apply(null, arguments);
+};
+// GL.getRenderbufferParameter; // glGetRenderbufferParameteriv
+GL.getShaderInfoLog = function() {
+    if (GL.debug) {
+        console.log("getShaderInfoLog");
+        console.log(arguments);
+    }
+    return gl_bindings.getShaderInfoLog.apply(null, arguments);
+};
+GL.getShaderParameter = function() {
+    if (GL.debug) {
+        console.log("getShaderParameter");
+        console.log(arguments);
+    }
+    return gl_bindings.getShaderParameter.apply(null, arguments);
+};
+// GL.getShaderPrecisionFormat;
+// GL.getShaderSource;
+// GL.getSupportedExtensions;
+// GL.getTexParameter; // glGetTexParameterfv glGetTexParameteriv
+// GL.getUniform; // glGetUniformfv glGetUniformiv
+GL.getUniformLocation = function() {
+    if (GL.debug) {
+        console.log("getUniformLocation");
+        console.log(arguments);
+    }
+    return gl_bindings.getUniformLocation.apply(null, arguments);
+};
+// GL.getVertexAttrib; // glGetVertexAttribfv glGetVertexAttribiv
+// GL.getVertexAttribOffset; // glGetVertexAttribPointerv
+// GL.hint;
+// GL.isBuffer;
+// GL.isContextLost;
+// GL.isEnabled;
+// GL.isFramebuffer;
+// GL.isProgram;
+// GL.isRenderbuffer;
+// GL.isShader;
+// GL.isTexture;
+// GL.lineWidth;
+GL.linkProgram = function() {
+    if (GL.debug) {
+        console.log("linkProgram");
+        console.log(arguments);
+    }
+    return gl_bindings.linkProgram.apply(null, arguments);
+};
+GL.pixelStorei = function() {
+    if (GL.debug) {
+        console.log("pixelStorei");
+        console.log(arguments);
+    }
+    arguments[1] = Number(arguments[1]);
+    return gl_bindings.pixelStorei.apply(null, arguments);
+};
+// GL.polygonOffset;
+// GL.readPixels;
+// GL.releaseShaderCompiler; // ?
+GL.renderbufferStorage = function() {
+    if (GL.debug) {
+        console.log("renderbufferStorage");
+        console.log(arguments);
+    }
+    return gl_bindings.renderbufferStorage.apply(null, arguments);
+};
+// GL.sampleCoverage;
+// GL.scissor;
+// GL.shaderBinary; // ?
+GL.shaderSource = function() {
+    if (GL.debug) {
+        console.log("shaderSource");
+        console.log(arguments);
+    }
+    return gl_bindings.shaderSource.apply(null, arguments);
+};
+// GL.stencilFunc;
+// GL.stencilFuncSeparate;
+// GL.stencilMask;
+// GL.stencilMaskSeparate;
+// GL.stencilOp;
+// GL.stencilOpSeparate;
+GL.texImage2D = function() {
+    if (GL.debug) {
+        console.log("texImage2D");
+        console.log(arguments);
+    }
+    return gl_bindings.texImage2D.apply(null, arguments);
+};
+// GL.texParameterf;
+// GL.texParameterfv;
+GL.texParameteri = function() {
+    if (GL.debug) {
+        console.log("texParameteri");
+        console.log(arguments);
+    }
+    return gl_bindings.texParameteri.apply(null, arguments);
+};
+// GL.texParameteriv;
+// GL.texSubImage2D;
+GL.uniform1f = function() {
+    if (GL.debug) {
+        console.log("uniform1f");
+        console.log(arguments);
+    }
+    return gl_bindings.uniform1f.apply(null, arguments);
+};
+GL.uniform1fv = function() {
+    if (GL.debug) {
+        console.log("uniform1fv");
+        console.log(arguments);
+    }
+    arguments[1] = new Float32Array(arguments[1]);
+    return gl_bindings.uniform1fv.apply(null, arguments);
+};
+GL.uniform1i = function() {
+    if (GL.debug) {
+        console.log("uniform1i");
+        console.log(arguments);
+    }
+    return gl_bindings.uniform1i.apply(null, arguments);
+};
+GL.uniform1iv = function() {
+    if (GL.debug) {
+        console.log("uniform1iv");
+        console.log(arguments);
+    }
+    arguments[1] = new Int32Array(arguments[1]);
+    return gl_bindings.uniform1iv.apply(null, arguments);
+};
+GL.uniform2f = function() {
+    if (GL.debug) {
+        console.log("uniform2f");
+        console.log(arguments);
+    }
+    return gl_bindings.uniform2f.apply(null, arguments);
+};
+GL.uniform2fv = function() {
+    if (GL.debug) {
+        console.log("uniform2fv");
+        console.log(arguments);
+    }
+    arguments[1] = new Float32Array(arguments[1]);
+    return gl_bindings.uniform2fv.apply(null, arguments);
+};
+GL.uniform2i = function() {
+    if (GL.debug) {
+        console.log("uniform2i");
+        console.log(arguments);
+    }
+    return gl_bindings.uniform2i.apply(null, arguments);
+};
+GL.uniform2iv = function() {
+    if (GL.debug) {
+        console.log("uniform2iv");
+        console.log(arguments);
+    }
+    arguments[1] = new Int32Array(arguments[1]);
+    return gl_bindings.uniform2iv.apply(null, arguments);
+};
+GL.uniform3f = function() {
+    if (GL.debug) {
+        console.log("uniform3f");
+        console.log(arguments);
+    }
+    return gl_bindings.uniform3f.apply(null, arguments);
+};
+GL.uniform3fv = function() {
+    if (GL.debug) {
+        console.log("uniform3fv");
+        console.log(arguments);
+    }
+    arguments[1] = new Float32Array(arguments[1]);
+    return gl_bindings.uniform3fv.apply(null, arguments);
+};
+GL.uniform3i = function() {
+    if (GL.debug) {
+        console.log("uniform3i");
+        console.log(arguments);
+    }
+    return gl_bindings.uniform3i.apply(null, arguments);
+};
+GL.uniform3iv = function() {
+    if (GL.debug) {
+        console.log("uniform3iv");
+        console.log(arguments);
+    }
+    arguments[1] = new Int32Array(arguments[1]);
+    return gl_bindings.uniform3iv.apply(null, arguments);
+};
+GL.uniform4f = function() {
+    if (GL.debug) {
+        console.log("uniform4f");
+        console.log(arguments);
+    }
+    return gl_bindings.uniform4f.apply(null, arguments);
+};
+GL.uniform4fv = function() {
+    if (GL.debug) {
+        console.log("uniform4fv");
+        console.log(arguments);
+    }
+    arguments[1] = new Float32Array(arguments[1]);
+    return gl_bindings.uniform4fv.apply(null, arguments);
+};
+GL.uniform4i = function() {
+    if (GL.debug) {
+        console.log("uniform4i");
+        console.log(arguments);
+    }
+    return gl_bindings.uniform4i.apply(null, arguments);
+};
+GL.uniform4iv = function() {
+    if (GL.debug) {
+        console.log("uniform4iv");
+        console.log(arguments);
+    }
+    arguments[1] = new Int32Array(arguments[1]);
+    return gl_bindings.uniform4iv.apply(null, arguments);
+};
+GL.uniformMatrix2fv = function() {
+    if (GL.debug) {
+        console.log("uniformMatrix2fv");
+        console.log(arguments);
+    }
+    return gl_bindings.uniformMatrix2fv.apply(null, arguments);
+};
+GL.uniformMatrix3fv = function() {
+    if (GL.debug) {
+        console.log("uniformMatrix3fv");
+        console.log(arguments);
+    }
+    return gl_bindings.uniformMatrix3fv.apply(null, arguments);
+};
+GL.uniformMatrix4fv = function() {
+    if (GL.debug) {
+        console.log("uniformMatrix4fv");
+        console.log(arguments);
+    }
+    return gl_bindings.uniformMatrix4fv.apply(null, arguments);
+};
+GL.useProgram = function() {
+    if (GL.debug) {
+        console.log("useProgram");
+        console.log(arguments);
+    }
+    return gl_bindings.useProgram.apply(null, arguments);
+};
+// GL.validateProgram;
+// GL.vertexAttrib1f;
+// GL.vertexAttrib1fv;
+// GL.vertexAttrib2f;
+// GL.vertexAttrib2fv;
+// GL.vertexAttrib3f;
+// GL.vertexAttrib3fv;
+// GL.vertexAttrib4f;
+// GL.vertexAttrib4fv;
+GL.vertexAttribPointer = function() {
+    if (GL.debug) {
+        console.log("vertexAttribPointer");
+        console.log(arguments);
+    }
+    return gl_bindings.vertexAttribPointer.apply(null, arguments);
+};
+GL.viewport = function() {
+    if (GL.debug) {
+        console.log("viewport");
+        console.log(arguments);
+    }
+    return gl_bindings.viewport.apply(null, arguments);
+};
 
 module.exports = GL;

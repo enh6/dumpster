@@ -18,11 +18,19 @@ void bindAttribLocation(const CallbackInfo &info) {
 }
 
 void bindBuffer(const CallbackInfo &info) {
-  glBindBuffer(info[0].As<Number>(), info[1].As<Number>());
+  if (info[1].IsNull()) {
+    glBindBuffer(info[0].As<Number>(), 0);
+  } else {
+    glBindBuffer(info[0].As<Number>(), info[1].As<Number>());
+  }
 }
 
 void bindFramebuffer(const CallbackInfo &info) {
-  glBindFramebuffer(info[0].As<Number>(), info[1].As<Number>());
+  if (info[1].IsNull()) {
+    glBindFramebuffer(info[0].As<Number>(), 0);
+  } else {
+    glBindFramebuffer(info[0].As<Number>(), info[1].As<Number>());
+  }
 }
 
 void bindRenderbuffer(const CallbackInfo &info) {
@@ -227,6 +235,34 @@ void generateMipmap(const CallbackInfo &info) {
   glGenerateMipmap(info[0].As<Number>());
 }
 
+Value getActiveAttrib(const CallbackInfo &info) {
+  GLsizei length;
+  GLint size;
+  GLenum type;
+  GLchar name[100];
+  glGetActiveAttrib(info[0].As<Number>(), info[1].As<Number>(),
+                    100, &length, &size, &type, name);
+  Object active_info = Object::New(info.Env());
+  active_info["size"] = size;
+  active_info["type"] = type;
+  active_info["name"] = String::New(info.Env(), name);
+  return active_info;
+}
+
+Value getActiveUniform(const CallbackInfo &info) {
+  GLsizei length;
+  GLint size;
+  GLenum type;
+  GLchar name[100];
+  glGetActiveUniform(info[0].As<Number>(), info[1].As<Number>(),
+                    100, &length, &size, &type, name);
+  Object active_info = Object::New(info.Env());
+  active_info["size"] = size;
+  active_info["type"] = type;
+  active_info["name"] = String::New(info.Env(), name);
+  return active_info;
+}
+
 Value getAttribLocation(const CallbackInfo &info) {
   GLint loc = glGetAttribLocation(info[0].As<Number>(),
                                   info[1].As<String>().Utf8Value().c_str());
@@ -272,6 +308,15 @@ void linkProgram(const CallbackInfo &info) {
   glLinkProgram(info[0].As<Number>());
 }
 
+void pixelStorei(const CallbackInfo &info) {
+  glPixelStorei(info[0].As<Number>(), info[1].As<Number>());
+}
+
+void renderbufferStorage(const CallbackInfo &info) {
+  glRenderbufferStorage(info[0].As<Number>(), info[1].As<Number>(),
+                        info[2].As<Number>(), info[3].As<Number>());
+}
+
 void shaderSource(const CallbackInfo &info) {
   std::string str = info[1].As<String>().Utf8Value();
   const char *c_str = str.c_str();
@@ -280,10 +325,14 @@ void shaderSource(const CallbackInfo &info) {
 }
 
 void texImage2D(const CallbackInfo &info) {
-  ArrayBuffer buffer = info[8].As<TypedArray>().ArrayBuffer();
+  const void* pixels = nullptr;
+  if (info[8].IsTypedArray()) {
+    ArrayBuffer buffer = info[8].As<TypedArray>().ArrayBuffer();
+    pixels = buffer.Data();
+  }
   glTexImage2D(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
                info[3].As<Number>(), info[4].As<Number>(), info[5].As<Number>(),
-               info[6].As<Number>(), info[7].As<Number>(), buffer.Data());
+               info[6].As<Number>(), info[7].As<Number>(), pixels);
 }
 
 void texParameteri(const CallbackInfo &info) {
@@ -461,8 +510,8 @@ Object InitModule(Env env, Object exports) {
   ADD_FUNCTION(exports, framebufferTexture2D);
   ADD_FUNCTION(exports, frontFace);
   ADD_FUNCTION(exports, generateMipmap);
-  // ADD_FUNCTION(exports, getActiveAttrib);
-  // ADD_FUNCTION(exports, getActiveUniform);
+  ADD_FUNCTION(exports, getActiveAttrib);
+  ADD_FUNCTION(exports, getActiveUniform);
   // ADD_FUNCTION(exports, getAttachedShaders);
   ADD_FUNCTION(exports, getAttribLocation);
   // ADD_FUNCTION(exports, getBooleanv); // ?
@@ -499,11 +548,11 @@ Object InitModule(Env env, Object exports) {
   // ADD_FUNCTION(exports, isTexture);
   // ADD_FUNCTION(exports, lineWidth);
   ADD_FUNCTION(exports, linkProgram);
-  // ADD_FUNCTION(exports, pixelStorei);
+  ADD_FUNCTION(exports, pixelStorei);
   // ADD_FUNCTION(exports, polygonOffset);
   // ADD_FUNCTION(exports, readPixels);
   // ADD_FUNCTION(exports, releaseShaderCompiler); // ?
-  // ADD_FUNCTION(exports, renderbufferStorage);
+  ADD_FUNCTION(exports, renderbufferStorage);
   // ADD_FUNCTION(exports, sampleCoverage);
   // ADD_FUNCTION(exports, scissor);
   // ADD_FUNCTION(exports, shaderBinary); // ?
