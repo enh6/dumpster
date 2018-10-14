@@ -237,8 +237,8 @@ class App {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        this.texture.width = image.bitmap.width;
-        this.texture.height = image.bitmap.height;
+        this.texture_width = image.bitmap.width;
+        this.texture_height = image.bitmap.height;
         this.draw();
       })
       .catch(err => {
@@ -287,7 +287,7 @@ class App {
       let kernel_name = 'edgeDetect2';
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.uniform2f(this.program_info.uniform_locations.resolution, this.width, this.height);
-      gl.uniform2f(this.program_info.uniform_locations.texture_size, this.texture.width, this.texture.height);
+      gl.uniform2f(this.program_info.uniform_locations.texture_size, this.texture_width, this.texture_height);
       gl.uniform1fv(this.program_info.uniform_locations.kernel, new Float32Array(this.kernels[kernel_name]));
       gl.uniform1f(this.program_info.uniform_locations.kernel_weight, this.kernels.computeKernelWeight(this.kernels[kernel_name]));
       gl.drawArrays(gl.TRIANGLES, 0, 6);

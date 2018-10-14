@@ -9,9 +9,7 @@ void activeTexture(const CallbackInfo &info) {
 }
 
 void attachShader(const CallbackInfo &info) {
-  const Object program = info[0].As<Object>();
-  const Object shader = info[1].As<Object>();
-  glAttachShader(program["value"].As<Number>(), shader["value"].As<Number>());
+  glAttachShader(info[0].As<Number>(), info[1].As<Number>());
 }
 
 void bindAttribLocation(const CallbackInfo &info) {
@@ -20,23 +18,19 @@ void bindAttribLocation(const CallbackInfo &info) {
 }
 
 void bindBuffer(const CallbackInfo &info) {
-  const Object buffer = info[1].As<Object>();
-  glBindBuffer(info[0].As<Number>(), buffer["value"].As<Number>());
+  glBindBuffer(info[0].As<Number>(), info[1].As<Number>());
 }
 
 void bindFramebuffer(const CallbackInfo &info) {
-  const Object buffer = info[1].As<Object>();
-  glBindFramebuffer(info[0].As<Number>(), buffer["value"].As<Number>());
+  glBindFramebuffer(info[0].As<Number>(), info[1].As<Number>());
 }
 
 void bindRenderbuffer(const CallbackInfo &info) {
-  const Object buffer = info[1].As<Object>();
-  glBindRenderbuffer(info[0].As<Number>(), buffer["value"].As<Number>());
+  glBindRenderbuffer(info[0].As<Number>(), info[1].As<Number>());
 }
 
 void bindTexture(const CallbackInfo &info) {
-  const Object texture = info[1].As<Object>();
-  glBindTexture(info[0].As<Number>(), texture["value"].As<Number>());
+  glBindTexture(info[0].As<Number>(), info[1].As<Number>());
 }
 
 void blendColor(const CallbackInfo &info) {
@@ -57,8 +51,8 @@ void blendFunc(const CallbackInfo &info) {
 }
 
 void blendFuncSeparate(const CallbackInfo &info) {
-  glBlendFuncSeparate(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
-                      info[3].As<Number>());
+  glBlendFuncSeparate(info[0].As<Number>(), info[1].As<Number>(),
+                      info[2].As<Number>(), info[3].As<Number>());
 }
 
 void bufferData(const CallbackInfo &info) {
@@ -69,7 +63,8 @@ void bufferData(const CallbackInfo &info) {
 
 void bufferSubData(const CallbackInfo &info) {
   ArrayBuffer buffer = info[2].As<TypedArray>().ArrayBuffer();
-  glBufferSubData(info[0].As<Number>(), info[1].As<Number>(), buffer.ByteLength(), buffer.Data());
+  glBufferSubData(info[0].As<Number>(), info[1].As<Number>(),
+                  buffer.ByteLength(), buffer.Data());
 }
 
 Value checkFramebufferStatus(const CallbackInfo &info) {
@@ -93,50 +88,101 @@ void clearStencil(const CallbackInfo &info) {
 }
 
 void colorMask(const CallbackInfo &info) {
-  glColorMask(info[0].As<Boolean>(), info[1].As<Boolean>(), info[2].As<Boolean>(),
-               info[3].As<Boolean>());
+  glColorMask(info[0].As<Boolean>(), info[1].As<Boolean>(),
+              info[2].As<Boolean>(), info[3].As<Boolean>());
 }
 
 void compileShader(const CallbackInfo &info) {
-  const Object shader = info[0].As<Object>();
-  glCompileShader(shader["value"].As<Number>());
+  glCompileShader(info[0].As<Number>());
+}
+
+void copyTexImage2D(const CallbackInfo &info) {
+  glCopyTexImage2D(info[0].As<Number>(), info[1].As<Number>(),
+                   info[2].As<Number>(), info[3].As<Number>(),
+                   info[4].As<Number>(), info[5].As<Number>(),
+                   info[6].As<Number>(), info[7].As<Number>());
+}
+
+void copyTexSubImage2D(const CallbackInfo &info) {
+  glCopyTexSubImage2D(info[0].As<Number>(), info[1].As<Number>(),
+                      info[2].As<Number>(), info[3].As<Number>(),
+                      info[4].As<Number>(), info[5].As<Number>(),
+                      info[6].As<Number>(), info[7].As<Number>());
 }
 
 Value createBuffer(const CallbackInfo &info) {
-  Object buffer = Object::New(info.Env());
-  GLuint buf;
-  glGenBuffers(1, &buf);
-  buffer["value"] = (double)buf;
-  return buffer;
+  GLuint buffer;
+  glGenBuffers(1, &buffer);
+  return Number::New(info.Env(), buffer);
+}
+
+Value createFramebuffer(const CallbackInfo &info) {
+  GLuint buffer;
+  glGenFramebuffers(1, &buffer);
+  return Number::New(info.Env(), buffer);
 }
 
 Value createProgram(const CallbackInfo &info) {
-  Object program = Object::New(info.Env());
-  program["value"] = (double)glCreateProgram();
-  return program;
+  return Number::New(info.Env(), glCreateProgram());
+}
+
+Value createRenderbuffer(const CallbackInfo &info) {
+  GLuint buffer;
+  glGenRenderbuffers(1, &buffer);
+  return Number::New(info.Env(), buffer);
 }
 
 Value createShader(const CallbackInfo &info) {
-  Object shader = Object::New(info.Env());
-  shader["value"] = (double)glCreateShader(info[0].As<Number>());
-  return shader;
+  return Number::New(info.Env(), glCreateShader(info[0].As<Number>()));
 }
 
 Value createTexture(const CallbackInfo &info) {
-  Object texture = Object::New(info.Env());
-  GLuint tex;
-  glGenTextures(1, &tex);
-  texture["value"] = (double)tex;
-  return texture;
+  GLuint texture;
+  glGenTextures(1, &texture);
+  return Number::New(info.Env(), texture);
+}
+
+void cullFace(const CallbackInfo &info) { glCullFace(info[0].As<Number>()); }
+
+void deleteBuffer(const CallbackInfo &info) {
+  GLuint buffer = info[0].As<Number>();
+  glDeleteBuffers(1, &buffer);
+}
+
+void deleteFramebuffer(const CallbackInfo &info) {
+  GLuint buffer = info[0].As<Number>();
+  glDeleteFramebuffers(1, &buffer);
+}
+
+void deleteProgram(const CallbackInfo &info) {
+  glDeleteProgram(info[0].As<Number>());
+}
+
+void deleteRenderbuffer(const CallbackInfo &info) {
+  GLuint buffer = info[0].As<Number>();
+  glDeleteRenderbuffers(1, &buffer);
+}
+
+void deleteShader(const CallbackInfo &info) {
+  glDeleteShader(info[0].As<Number>());
 }
 
 void deleteTexture(const CallbackInfo &info) {
-  const Object texture = info[0].As<Object>();
-  GLuint tex = texture["value"].As<Number>();
-  glDeleteTextures(1, &tex);
+  GLuint buffer = info[0].As<Number>();
+  glDeleteTextures(1, &buffer);
 }
 
 void depthFunc(const CallbackInfo &info) { glDepthFunc(info[0].As<Number>()); }
+
+void depthMask(const CallbackInfo &info) { glDepthMask(info[0].As<Boolean>()); }
+
+void depthRange(const CallbackInfo &info) {
+  glDepthRangef(info[0].As<Number>(), info[1].As<Number>());
+}
+
+void detachShader(const CallbackInfo &info) {
+  glDetachShader(info[0].As<Number>(), info[2].As<Number>());
+}
 
 void disable(const CallbackInfo &info) { glDisable(info[0].As<Number>()); }
 
@@ -164,14 +210,26 @@ void finish(const CallbackInfo &info) { glFinish(); }
 
 void flush(const CallbackInfo &info) { glFlush(); }
 
+void framebufferRenderbuffer(const CallbackInfo &info) {
+  glFramebufferRenderbuffer(info[0].As<Number>(), info[1].As<Number>(),
+                            info[2].As<Number>(), info[3].As<Number>());
+}
+
+void framebufferTexture2D(const CallbackInfo &info) {
+  glFramebufferTexture2D(info[0].As<Number>(), info[1].As<Number>(),
+                         info[2].As<Number>(), info[3].As<Number>(),
+                         info[4].As<Number>());
+}
+
+void frontFace(const CallbackInfo &info) { glFrontFace(info[0].As<Number>()); }
+
 void generateMipmap(const CallbackInfo &info) {
   glGenerateMipmap(info[0].As<Number>());
 }
 
 Value getAttribLocation(const CallbackInfo &info) {
-  const Object program = info[0].As<Object>();
-  GLint loc = glGetAttribLocation(program["value"].As<Number>(),
-                                info[1].As<String>().Utf8Value().c_str());
+  GLint loc = glGetAttribLocation(info[0].As<Number>(),
+                                  info[1].As<String>().Utf8Value().c_str());
   return Number::New(info.Env(), loc);
 }
 
@@ -180,24 +238,21 @@ Value getError(const CallbackInfo &info) {
 }
 
 Value getProgramParameter(const CallbackInfo &info) {
-  const Object program = info[0].As<Object>();
   GLint param;
-  glGetProgramiv(program["value"].As<Number>(), info[1].As<Number>(), &param);
+  glGetProgramiv(info[0].As<Number>(), info[1].As<Number>(), &param);
   return Number::New(info.Env(), param);
 }
 
 Value getShaderParameter(const CallbackInfo &info) {
-  const Object shader = info[0].As<Object>();
   GLint param;
-  glGetShaderiv(shader["value"].As<Number>(), info[1].As<Number>(), &param);
+  glGetShaderiv(info[0].As<Number>(), info[1].As<Number>(), &param);
   return Number::New(info.Env(), param);
 }
 
 Value getShaderInfoLog(const CallbackInfo &info) {
-  const Object shader = info[0].As<Object>();
   GLint len;
   char info_log[1000];
-  glGetShaderInfoLog(shader["value"].As<Number>(), 1000, &len, info_log);
+  glGetShaderInfoLog(info[0].As<Number>(), 1000, &len, info_log);
   return String::New(info.Env(), info_log);
 }
 
@@ -208,154 +263,130 @@ Value getString(const CallbackInfo &info) {
 }
 
 Value getUniformLocation(const CallbackInfo &info) {
-  const Object program = info[0].As<Object>();
   GLint location = glGetUniformLocation(
-      program["value"].As<Number>(), info[1].As<String>().Utf8Value().c_str());
-  Object loc_obj = Object::New(info.Env());
-  loc_obj["value"] = (double)location;
-  return loc_obj;
+      info[0].As<Number>(), info[1].As<String>().Utf8Value().c_str());
+  return Number::New(info.Env(), location);
 }
 
 void linkProgram(const CallbackInfo &info) {
-  const Object program = info[0].As<Object>();
-  glLinkProgram(program["value"].As<Number>());
+  glLinkProgram(info[0].As<Number>());
 }
 
 void shaderSource(const CallbackInfo &info) {
-  const Object shader = info[0].As<Object>();
   std::string str = info[1].As<String>().Utf8Value();
   const char *c_str = str.c_str();
   int length = strlen(c_str);
-  glShaderSource(shader["value"].As<Number>(), 1, &c_str, &length);
+  glShaderSource(info[0].As<Number>(), 1, &c_str, &length);
 }
 
 void texImage2D(const CallbackInfo &info) {
   ArrayBuffer buffer = info[8].As<TypedArray>().ArrayBuffer();
   glTexImage2D(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
-    info[3].As<Number>(), info[4].As<Number>(), info[5].As<Number>(), info[6].As<Number>(),
-    info[7].As<Number>(), buffer.Data());
+               info[3].As<Number>(), info[4].As<Number>(), info[5].As<Number>(),
+               info[6].As<Number>(), info[7].As<Number>(), buffer.Data());
 }
 
 void texParameteri(const CallbackInfo &info) {
-  glTexParameteri(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>());
+  glTexParameteri(info[0].As<Number>(), info[1].As<Number>(),
+                  info[2].As<Number>());
 }
 
 void uniform1f(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
-  glUniform1f(location["value"].As<Number>(), info[1].As<Number>());
+  glUniform1f(info[0].As<Number>(), info[1].As<Number>());
 }
 
 void uniform1fv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Float32Array value = info[1].As<Float32Array>();
-  glUniform1fv(location["value"].As<Number>(), value.ElementLength(), value.Data());
+  glUniform1fv(info[0].As<Number>(), value.ElementLength(), value.Data());
 }
 
 void uniform1i(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
-  glUniform1i(location["value"].As<Number>(), info[1].As<Number>());
+  glUniform1i(info[0].As<Number>(), info[1].As<Number>());
 }
 
 void uniform1iv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Int32Array value = info[1].As<Int32Array>();
-  glUniform1iv(location["value"].As<Number>(), value.ElementLength(), value.Data());
+  glUniform1iv(info[0].As<Number>(), value.ElementLength(), value.Data());
 }
 
 void uniform2f(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
-  glUniform2f(location["value"].As<Number>(), info[1].As<Number>(), info[2].As<Number>());
+  glUniform2f(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>());
 }
 
 void uniform2fv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Float32Array value = info[1].As<Float32Array>();
-  glUniform2fv(location["value"].As<Number>(), value.ElementLength() / 2, value.Data());
+  glUniform2fv(info[0].As<Number>(), value.ElementLength() / 2, value.Data());
 }
 
 void uniform2i(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
-  glUniform2i(location["value"].As<Number>(), info[1].As<Number>(), info[2].As<Number>());
+  glUniform2i(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>());
 }
 
 void uniform2iv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Int32Array value = info[1].As<Int32Array>();
-  glUniform2iv(location["value"].As<Number>(), value.ElementLength() / 2, value.Data());
+  glUniform2iv(info[0].As<Number>(), value.ElementLength() / 2, value.Data());
 }
 
 void uniform3f(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
-  glUniform3f(location["value"].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
+  glUniform3f(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
               info[3].As<Number>());
 }
 
 void uniform3fv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Float32Array value = info[1].As<Float32Array>();
-  glUniform3fv(location["value"].As<Number>(), value.ElementLength() / 3, value.Data());
+  glUniform3fv(info[0].As<Number>(), value.ElementLength() / 3, value.Data());
 }
 
 void uniform3i(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
-  glUniform3i(location["value"].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
+  glUniform3i(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
               info[3].As<Number>());
 }
 
 void uniform3iv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Int32Array value = info[1].As<Int32Array>();
-  glUniform3iv(location["value"].As<Number>(), value.ElementLength() / 3, value.Data());
+  glUniform3iv(info[0].As<Number>(), value.ElementLength() / 3, value.Data());
 }
 
 void uniform4f(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
-  glUniform4f(location["value"].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
+  glUniform4f(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
               info[3].As<Number>(), info[4].As<Number>());
 }
 
 void uniform4fv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Float32Array value = info[1].As<Float32Array>();
-  glUniform4fv(location["value"].As<Number>(), value.ElementLength() / 4, value.Data());
+  glUniform4fv(info[0].As<Number>(), value.ElementLength() / 4, value.Data());
 }
 
 void uniform4i(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
-  glUniform4i(location["value"].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
+  glUniform4i(info[0].As<Number>(), info[1].As<Number>(), info[2].As<Number>(),
               info[3].As<Number>(), info[4].As<Number>());
 }
 
 void uniform4iv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Int32Array value = info[1].As<Int32Array>();
-  glUniform4iv(location["value"].As<Number>(), value.ElementLength() / 4, value.Data());
+  glUniform4iv(info[0].As<Number>(), value.ElementLength() / 4, value.Data());
 }
 
 void uniformMatrix2fv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Float32Array array = info[2].As<Float32Array>();
-  glUniformMatrix2fv(location["value"].As<Number>(), array.ElementLength() / 4,
+  glUniformMatrix2fv(info[0].As<Number>(), array.ElementLength() / 4,
                      info[1].As<Boolean>(), array.Data());
 }
 
 void uniformMatrix3fv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Float32Array array = info[2].As<Float32Array>();
-  glUniformMatrix3fv(location["value"].As<Number>(), array.ElementLength() / 9,
+  glUniformMatrix3fv(info[0].As<Number>(), array.ElementLength() / 9,
                      info[1].As<Boolean>(), array.Data());
 }
 
 void uniformMatrix4fv(const CallbackInfo &info) {
-  const Object location = info[0].As<Object>();
   const Float32Array array = info[2].As<Float32Array>();
-  glUniformMatrix4fv(location["value"].As<Number>(), array.ElementLength() / 16,
+  glUniformMatrix4fv(info[0].As<Number>(), array.ElementLength() / 16,
                      info[1].As<Boolean>(), array.Data());
 }
 
 void useProgram(const CallbackInfo &info) {
-  const Object program = info[0].As<Object>();
-  glUseProgram(program["value"].As<Number>());
+  glUseProgram(info[0].As<Number>());
 }
 
 void vertexAttribPointer(const CallbackInfo &info) {
@@ -373,7 +404,8 @@ void viewport(const CallbackInfo &info) {
 #define ADD_FUNCTION(obj, func) obj[#func] = Function::New(env, func, #func);
 
 Object InitModule(Env env, Object exports) {
-  // WebGLRenderingContext APIs. see https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext
+  // WebGLRenderingContext APIs. see
+  // https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext
   ADD_FUNCTION(exports, activeTexture);
   ADD_FUNCTION(exports, attachShader);
   ADD_FUNCTION(exports, bindAttribLocation);
@@ -394,29 +426,29 @@ Object InitModule(Env env, Object exports) {
   ADD_FUNCTION(exports, clearDepth);
   ADD_FUNCTION(exports, clearStencil);
   ADD_FUNCTION(exports, colorMask);
-  // ADD_FUNCTION(exports, commit); // experimental WebGL API
+  // ADD_FUNCTION(exports, commit); // WebGL experimental API
   ADD_FUNCTION(exports, compileShader);
-  // ADD_FUNCTION(exports, compressedTexImage2D);
-  // ADD_FUNCTION(exports, compressedTexSubImage2D);
-  // ADD_FUNCTION(exports, copyTexImage2D);
-  // ADD_FUNCTION(exports, copyTexSubImage2D);
-  ADD_FUNCTION(exports, createBuffer); // genBuffers
-  // ADD_FUNCTION(exports, createFrameBuffer); // genFrameBuffers
+  // ADD_FUNCTION(exports, compressedTexImage2D);  // WebGL extension
+  // ADD_FUNCTION(exports, compressedTexSubImage2D); // WebGL extension
+  ADD_FUNCTION(exports, copyTexImage2D);
+  ADD_FUNCTION(exports, copyTexSubImage2D);
+  ADD_FUNCTION(exports, createBuffer);      // glGenBuffers
+  ADD_FUNCTION(exports, createFramebuffer); // glGenFramebuffers
   ADD_FUNCTION(exports, createProgram);
-  // ADD_FUNCTION(exports, createRenderBuffer); // genRenderbuffers
+  ADD_FUNCTION(exports, createRenderbuffer); // glGenRenderbuffers
   ADD_FUNCTION(exports, createShader);
-  ADD_FUNCTION(exports, createTexture); //genTextures
-  // ADD_FUNCTION(exports, cullFace);
-  // ADD_FUNCTION(exports, deleteBuffer); // deleteBuffers
-  // ADD_FUNCTION(exports, deleteFramebuffer); // deleteFramebuffers
-  // ADD_FUNCTION(exports, deleteProgram);
-  // ADD_FUNCTION(exports, deleteRenderbuffer); // deleteRenderbuffers
-  // ADD_FUNCTION(exports, deleteShader);
-  ADD_FUNCTION(exports, deleteTexture); // deleteTextures
+  ADD_FUNCTION(exports, createTexture); // glGenTextures
+  ADD_FUNCTION(exports, cullFace);
+  ADD_FUNCTION(exports, deleteBuffer);      // glDeleteBuffers
+  ADD_FUNCTION(exports, deleteFramebuffer); // glDeleteFramebuffers
+  ADD_FUNCTION(exports, deleteProgram);
+  ADD_FUNCTION(exports, deleteRenderbuffer); // glDeleteRenderbuffers
+  ADD_FUNCTION(exports, deleteShader);
+  ADD_FUNCTION(exports, deleteTexture); // glDeleteTextures
   ADD_FUNCTION(exports, depthFunc);
-  // ADD_FUNCTION(exports, depthMask);
-  // ADD_FUNCTION(exports, depthRange); // depthRangef
-  // ADD_FUNCTION(exports, detachShader);
+  ADD_FUNCTION(exports, depthMask);
+  ADD_FUNCTION(exports, depthRange); // glDepthRangef
+  ADD_FUNCTION(exports, detachShader);
   ADD_FUNCTION(exports, disable);
   ADD_FUNCTION(exports, disableVertexAttribArray);
   ADD_FUNCTION(exports, drawArrays);
@@ -425,37 +457,37 @@ Object InitModule(Env env, Object exports) {
   ADD_FUNCTION(exports, enableVertexAttribArray);
   ADD_FUNCTION(exports, finish);
   ADD_FUNCTION(exports, flush);
-  // ADD_FUNCTION(exports, framebufferRenderbuffer);
-  // ADD_FUNCTION(exports, framebufferTexture2D);
-  // ADD_FUNCTION(exports, frontFace);
+  ADD_FUNCTION(exports, framebufferRenderbuffer);
+  ADD_FUNCTION(exports, framebufferTexture2D);
+  ADD_FUNCTION(exports, frontFace);
   ADD_FUNCTION(exports, generateMipmap);
   // ADD_FUNCTION(exports, getActiveAttrib);
   // ADD_FUNCTION(exports, getActiveUniform);
   // ADD_FUNCTION(exports, getAttachedShaders);
   ADD_FUNCTION(exports, getAttribLocation);
   // ADD_FUNCTION(exports, getBooleanv); // ?
-  // ADD_FUNCTION(exports, getBufferParameteri); // getBufferParameteriv
+  // ADD_FUNCTION(exports, getBufferParameteri); // glGetBufferParameteriv
   // ADD_FUNCTION(exports, getContextAttributes);
   ADD_FUNCTION(exports, getError);
   // ADD_FUNCTION(exports, getExtension);
   // ADD_FUNCTION(exports, getFloatv); // ?
-  // ADD_FUNCTION(exports, getFramebufferAttachmentParameteri); // getFramebufferAttachmentParameteriv
+  // ADD_FUNCTION(exports, getFramebufferAttachmentParameteri); // glGetFramebufferAttachmentParameteriv
   // ADD_FUNCTION(exports, getIntegerv); // ?
   // ADD_FUNCTION(exports, getParameter);
   // ADD_FUNCTION(exports, getProgramInfoLog);
-  ADD_FUNCTION(exports, getProgramParameter); // getProgramiv
-  // ADD_FUNCTION(exports, getRenderbufferParameter); // getRenderbufferParameteriv
+  ADD_FUNCTION(exports, getProgramParameter); // glGetProgramiv
+  // ADD_FUNCTION(exports, getRenderbufferParameter); // glGetRenderbufferParameteriv
   ADD_FUNCTION(exports, getShaderInfoLog);
-  ADD_FUNCTION(exports, getShaderParameter); // getShaderiv
+  ADD_FUNCTION(exports, getShaderParameter); // glGetShaderiv
   // ADD_FUNCTION(exports, getShaderPrecisionFormat);
   // ADD_FUNCTION(exports, getShaderSource);
   // ADD_FUNCTION(exports, getSupportedExtensions);
   ADD_FUNCTION(exports, getString); // ?
-  // ADD_FUNCTION(exports, getTexParameter); // getTexParameterfv getTexParameteriv
-  // ADD_FUNCTION(exports, getUniform); // getUniformfv getUniformiv
+  // ADD_FUNCTION(exports, getTexParameter); // glGetTexParameterfv glGetTexParameteriv
+  // ADD_FUNCTION(exports, getUniform); // glGetUniformfv glGetUniformiv
   ADD_FUNCTION(exports, getUniformLocation);
-  // ADD_FUNCTION(exports, getVertexAttrib); // getVertexAttribfv getVertexAttribiv
-  // ADD_FUNCTION(exports, getVertexAttribOffset); // getVertexAttribPointerv
+  // ADD_FUNCTION(exports, getVertexAttrib); // glGetVertexAttribfv glGetVertexAttribiv
+  // ADD_FUNCTION(exports, getVertexAttribOffset); // glGetVertexAttribPointerv
   // ADD_FUNCTION(exports, hint);
   // ADD_FUNCTION(exports, isBuffer);
   // ADD_FUNCTION(exports, isContextLost);
