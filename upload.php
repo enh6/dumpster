@@ -8,6 +8,12 @@ echo ini_get('upload_max_filesize');
 ?>
 </p>
 
+<p>php.ini post_max_size:
+<?php
+echo ini_get('post_max_size');
+?>
+</p>
+
 <form action="upload.php" method="post" enctype="multipart/form-data">
     Select file to upload:
     <input type="file" name="fileToUpload" id="fileToUpload">
