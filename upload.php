@@ -2,17 +2,17 @@
 <html>
 <body>
 
-<p>php.ini upload_max_filesizes:
-<?php
+<p>php.ini upload_max_filesizes:<?php
 echo ini_get('upload_max_filesize');
-?>
-</p>
+?></p>
 
-<p>php.ini post_max_size:
-<?php
+<p>php.ini post_max_size:<?php
 echo ini_get('post_max_size');
-?>
-</p>
+?></p>
+
+<p>CURL: curl -F "fileToUpload=@path/to/file" <?php
+echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
+?></p>
 
 <form action="upload.php" method="post" enctype="multipart/form-data">
     Select file to upload:
